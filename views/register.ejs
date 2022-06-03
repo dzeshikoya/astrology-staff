@@ -1,0 +1,49 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<title>Гороскоп-Регистрация</title>
+<style>
+  /*
+  *   Some inline styling.. just to not make one get tired in 2 seconds of watching the page..
+  */
+  body {
+      background:#c8dbfa;
+      text-shadow: 1px 1px 2px #eaf2ff;
+  }
+
+  .centerText {
+      text-align: center;
+  }
+
+</style>
+
+<h1 style="text-align:center">Регистрация</h1>
+<br>
+<form style="text-align:center" action="/register" method="POST">
+  <div>
+    <label for="name">Имя&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+    <input type="text" id="name" name="name" required>
+  </div>
+  
+  <div>
+    <label for="email">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+    <input type="email" id="email" name="email" required>
+  </div>
+  
+
+
+
+  <div>
+    <label for="password">Пароль&nbsp;&nbsp;&nbsp;</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+
+  <div>
+    <!--<p class="col-sm-offset-2 col-sm-8">Дата рождения (для создания гороскопа)</p>
+        <input type="submit" value="Send date input" class="btn btn-lg btn-info" id="dateObjectButton">-->
+    <label for="birthdate">Дата рождения &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>  
+     <input type="date" id="dateObjectInput" name = "birthdate" required>
+  </div>
+
+  <br>
+  <button type="submit">Зарегистрироваться! </button>
+</form>
+<p style="text-align:center"><a href="/login" >Войти&nbsp;&nbsp;&nbsp;</a><a href="/">Главная</a></p>

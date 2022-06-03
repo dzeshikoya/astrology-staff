@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Гороскоп</title>
+    <!--тут наш код для отключения -->
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    
+    <style>
+        /*
+        *   Some inline styling.. just to not make one get tired in 2 seconds of watching the page..
+        */
+        body {
+            background:#c8dbfa;
+            text-shadow: 1px 1px 2px #eaf2ff;
+        }
+
+        .centerText {
+            text-align: center;
+        }
+
+    </style>
+
+</head>
+<body>
+    <!--<div class="container">
+        <br>
+
+    <h1>Привет, <%= name %></h1>
+    <form action="/logout?_method=DELETE" method="POST">
+      <button type="submit">Log Out</button>
+    </form>
+</div>-->
+    <div style="text-align: right">
+    <a href="/login">Войти &nbsp;</a>
+    <a href="/register">Зарегистрироваться&nbsp;</a>
+    </div>
+    <h2 class="centerText">Узнай свой гороскоп на сегодня! </h2>
+<br>
+<div class="container">
+    <p class="col-sm-offset-2 col-sm-8">Введи свой день рождения</p>
+    <form class="col-sm-offset-2 col-sm-8">
+        <input id="dateInput" type="text" placeholder="день" >
+        <input id="monthInput" type="text" placeholder="месяц" >
+        <input type="submit" value="Узнать мой знак зодиака!" class="btn btn-lg btn-info" id="sendDateMonth">
+    </form>
+</div>
+
+<!--<div class="container">
+    <p class="col-sm-offset-2 col-sm-8">Just a small test-page to demonstrate a simple pure vanilla javascript usage of some of the methods. Basically no styling (some minor boostrap just) or other cool stuff applied ;)</p>
+    <form class="col-sm-offset-2 col-sm-8">
+        <input id="dateObjectInput" type="date">
+        <input type="submit" value="Send date input" class="btn btn-lg btn-info" id="dateObjectButton">
+    </form>
+</div>
+-->
+
+<div class="container">
+    
+    <!--<img src='${something}'>
+    
+    <p style="text-align: center;"><img src = "zodiacPicture.jpg" style = " height: 300px; width: auto;"></img></p>-->
+    <br><br>
+    <p style="text-align: center;"  id="yabanner" ></p>
+    <h4 class="centerText" id="zodiacName"></h4>
+    <br>
+    <p class="col-sm-offset-2 col-sm-8"  id="zodiacDescription"></p>
+</div>
+
+<div class="container">
+    <h4 class="centerText">Предсказание на сегодня</h4>
+    <h4 class="centerText" id="zodiacWriteToday"></h4>
+    <p class="col-sm-offset-2 col-sm-8"  id="zodiacToday"></p>
+    <!--<p class="col-sm-offset-2 col-sm-8" id="zodiacDescription"></p>-->
+</div>
+
+
+<script src="/js/astrology.js"></script>
+<script>
+
+        var testConnectionObject = {
+            /*
+            dateDataUrl:'someUrl',
+            descriptionDataUrl:'anotherUrl'
+            */
+        };
+
+        //Instantiate the class
+        var astrology = new Astrology(testConnectionObject);
+
+
+        //var dateButton = document.getElementById('dateObjectButton');
+        var button = document.getElementById('sendDateMonth');
+
+        var zodiacName = document.getElementById('zodiacName');
+        var zodiacDescription = document.getElementById('zodiacDescription');
+        //var zodiacToday = document.getElementById('zodiacToday');
+        //var today = new Date();
+
+        var currentZodiacName = '';
+        var currentZodiacDescription = '';
+        //var today = '';
+
+        //мои приколы начинаются
+        //var today = new Date();
+        //today.getDate();
+
+
+
+        button.addEventListener('click', function(event){
+            event.preventDefault();
+
+            var date = document.getElementById('dateInput').value;
+            var month = document.getElementById('monthInput').value;
+            var today = new Date();
+
+            astrology.addDay(date);
+            astrology.addMonth(month);
+            astrology.addToday(String(today.getDate()).padStart(2, '0'));
+
+            //astrology.addToday(today);
+
+            currentZodiacName = astrology.fetchZodiacSign();
+            currentZodiacDescription = astrology.fetchZodiacSignDescription();
+            currentToday = astrology.fetchToday();
+            
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = dd + '/' + mm + '/' + yyyy;
+           
+            //currentToday = today.getDay();
+
+
+            //Lets update the DOM
+            zodiacName.innerHTML = currentZodiacName;
+            zodiacDescription.innerHTML = currentZodiacDescription;
+            zodiacWriteToday.innerHTML = today;
+
+            zodiacToday.innerHTML = currentToday;
+           // zodiacTodayPrediction.innerHTML = currentToday;
+
+            var el = document.getElementById("yabanner");  //вывод картинки в зависимости от знака
+            switch(currentZodiacName)
+            {
+                case "Овен": el.innerHTML="<img src=\"Овен.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Телец": el.innerHTML="<img src=\"Телец.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Близнецы": el.innerHTML="<img src=\"Близнецы.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Рак": el.innerHTML="<img src=\"Рак.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Лев": el.innerHTML="<img src=\"Лев.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Дева": el.innerHTML="<img src=\"Дева.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Весы": el.innerHTML="<img src=\"Весы.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Скорпион": el.innerHTML="<img src=\"Скорпион.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Стрелец": el.innerHTML="<img src=\"Стрелец.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Козерог": el.innerHTML="<img src=\"Козерог.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Водолей": el.innerHTML="<img src=\"Водолей.png\" width=\"300px\" height=\"auto\">";
+                    break;
+                case "Рыбы": el.innerHTML="<img src=\"Рыбы.webp\" width=\"300px\" height=\"auto\">";
+                    break;
+                default: el.innerHTML="<img src=\"zodiacPicture.jpg\" width=\"300px\" height=\"auto\">";
+                    break;
+
+            }
+            
+
+        });
+
+       
+       //потом уберу мб, это для полной даты
+        /*dateButton.addEventListener('click', function(event){
+            event.preventDefault();
+
+            var dateObject = document.getElementById('dateObjectInput').value;
+            astrology.addFullDateString(dateObject);
+
+            currentZodiacName = astrology.fetchZodiacSign();
+            currentZodiacDescription = astrology.fetchZodiacSignDescription();
+
+            //Lets update the DOM
+            zodiacName.innerHTML = currentZodiacName;
+            zodiacDescription.innerHTML = currentZodiacDescription;
+
+        });
+        */
+
+</script>
+</body>
+</html>
